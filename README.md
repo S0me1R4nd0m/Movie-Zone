@@ -1,5 +1,5 @@
 # 🎬 My Movie Zone
-
+## Site creater : Funny monkey 
 **My Movie Zone** is a sleek and animated frontend movie/TV browsing website that lets users search and stream titles using embedded content from third-party sources. It features a modern, responsive UI with animated tiles, modal playback, and search filtering for both movies and TV shows.
 
 ---
@@ -21,8 +21,7 @@ This project is for **educational and demonstration purposes only**.
 - Content is embedded from third-party services (e.g., `vidsrc.rip`).
 - You are responsible for complying with local laws regarding copyright and content distribution.
 - The creator of this site does **not host, upload, or control** any of the embedded videos.
-- Use this template responsibly and at your own risk.
-
+- Using this template will get you copyright striked!
 ---
 
 ## 📌 Tech Stack
@@ -39,7 +38,4 @@ This project is for **educational and demonstration purposes only**.
 - Logo icon from [Flaticon](https://www.flaticon.com/)
 - Movie data from [OMDb API](http://www.omdbapi.com/)
 - Streaming embeds via [vidsrc.rip](https://vidsrc.rip/) *(not affiliated)*
----
-# Disclaimer 
-# !ALL RIGHTS BELONG TO THERE RIGHTFUL OWNERS!
 ---
