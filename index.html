@@ -138,14 +138,7 @@
   </div>
 
   <div class="grid" id="movieGrid">
-    <div class="movie" data-title="John Wick 4" onclick="openPlayer('https://vidsrc.rip/embed/movie/tt2911666')">
-      <img src="https://image.tmdb.org/t/p/w500/8P4YqVOkUHyU1Ff0UuWRyNR8A1L.jpg" alt="John Wick 4"/>
-      <div class="movie-title">John Wick 4</div>
-    </div>
-    <div class="movie" data-title="Avengers Endgame" onclick="openPlayer('https://vidsrc.rip/embed/movie/tt4154796')">
-      <img src="https://image.tmdb.org/t/p/w500/ulzhLuWrPK07P1YkdWQLZnQh1JL.jpg" alt="Avengers Endgame"/>
-      <div class="movie-title">Avengers Endgame</div>
-    </div>
+    <!-- Movies will be dynamically inserted here -->
   </div>
 
   <div class="modal" id="playerModal">
@@ -158,24 +151,49 @@
     const movieFrame = document.getElementById('movieFrame');
     const searchInput = document.getElementById('searchInput');
     const movieGrid = document.getElementById('movieGrid');
+    const apiKey = '5edf8722'; // Your OMDb API key
 
+    // Fetch movies from OMDb API
+    async function fetchMovies(query) {
+      const response = await fetch(`https://www.omdbapi.com/?s=${query}&apikey=${apiKey}`);
+      const data = await response.json();
+
+      if (data.Response === "True") {
+        movieGrid.innerHTML = ''; // Clear existing movies
+        data.Search.forEach(movie => {
+          const movieElement = document.createElement('div');
+          movieElement.classList.add('movie');
+          movieElement.setAttribute('data-title', movie.Title);
+          movieElement.innerHTML = `
+            <img src="${movie.Poster}" alt="${movie.Title}"/>
+            <div class="movie-title">${movie.Title}</div>
+          `;
+          movieElement.onclick = () => openPlayer(`https://vidsrc.rip/embed/movie/${movie.imdbID}`);
+          movieGrid.appendChild(movieElement);
+        });
+      } else {
+        movieGrid.innerHTML = `<p>No movies found for "${query}".</p>`;
+      }
+    }
+
+    // Open the modal with movie player
     function openPlayer(url) {
       movieFrame.src = url;
       modal.style.display = 'flex';
     }
 
+    // Close the modal
     function closePlayer() {
       modal.style.display = 'none';
       movieFrame.src = '';
     }
 
+    // Trigger movie search based on input
     searchInput.addEventListener('input', () => {
-      const query = searchInput.value.toLowerCase();
-      const movies = movieGrid.querySelectorAll('.movie');
-      movies.forEach(movie => {
-        const title = movie.getAttribute('data-title').toLowerCase();
-        movie.style.display = title.includes(query) ? 'block' : 'none';
-      });
+      const query = searchInput.value.trim();
+      if (query.length > 2) { // Minimum 3 characters to trigger search
+        fetchMovies(query);
+      }
     });
   </script>
 
