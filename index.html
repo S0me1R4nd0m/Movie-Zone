@@ -55,32 +55,34 @@
 
   <script>
     async function searchMovie() {
-      const query = document.getElementById("search").value;
+      const query = document.getElementById("search").value.trim();
       if (!query) return;
 
       const apiKey = "5edf8722";
-      const url = `https://www.omdbapi.com/?t=${encodeURIComponent(query)}&apikey=${apiKey}`;
+      const searchUrl = `https://www.omdbapi.com/?s=${encodeURIComponent(query)}&apikey=${apiKey}`;
 
       try {
-        const res = await fetch(url);
-        const data = await res.json();
+        const searchRes = await fetch(searchUrl);
+        const searchData = await searchRes.json();
 
-        if (data.Response === "False") {
-          alert("Movie or show not found.");
+        if (searchData.Response === "False" || !searchData.Search.length) {
+          alert("No results found.");
           return;
         }
 
-        const imdbID = data.imdbID;
+        const imdbID = searchData.Search[0].imdbID;
+
         const iframe = document.createElement("iframe");
         iframe.src = `https://multiembed.mov/?video_id=${imdbID}&tmdb=1`;
         iframe.allowFullscreen = true;
 
         const container = document.getElementById("videoContainer");
-        container.innerHTML = ""; // Clear previous
+        container.innerHTML = "";
         container.appendChild(iframe);
+
       } catch (err) {
-        alert("An error occurred. Please try again.");
         console.error(err);
+        alert("Something went wrong. Try again.");
       }
     }
   </script>
